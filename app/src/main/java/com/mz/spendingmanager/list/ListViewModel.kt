@@ -1,7 +1,7 @@
-package com.mz.spendingmanager.ui.main
+package com.mz.spendingmanager.list
 
 import androidx.lifecycle.ViewModel
 
-class MainViewModel : ViewModel() {
+class ListViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

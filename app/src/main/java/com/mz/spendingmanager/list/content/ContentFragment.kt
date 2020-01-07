@@ -1,4 +1,4 @@
-package com.mz.spendingmanager.ui.main
+package com.mz.spendingmanager.list.content
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -6,26 +6,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import com.mz.spendingmanager.R
 
-class MainFragment : Fragment() {
+class ContentFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = ContentFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: ContentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.content_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ContentViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
