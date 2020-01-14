@@ -10,17 +10,18 @@
         android:id="@+id/tv_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="id"
         />
     <TextView
         android:id="@+id/tv_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text="text"
         />
     <TextView
         android:id="@+id/tv_creation_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text="date"
         />
 </LinearLayout>
