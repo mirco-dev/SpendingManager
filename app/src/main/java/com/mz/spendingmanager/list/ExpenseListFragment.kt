@@ -39,7 +39,7 @@ class ExpenseListFragment : Fragment() {
         rv_list.adapter = adapter
 
         viewModel.listExpense.observe(this, Observer {
-            tv_num_elements.text = it.count().toString()
+//            tv_num_elements.text = it.count().toString() //use databinding
         })
 
         fab_create_new_item.setOnClickListener {
