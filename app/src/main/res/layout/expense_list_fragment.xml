@@ -34,7 +34,7 @@
                     android:id="@+id/tv_num_elements"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@={viewModel.getCount()}"
+                    android:text="@{viewModel.count}"
                     />
             </LinearLayout>
 
@@ -43,7 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/expense_list_item"
                 />
 
         </LinearLayout>

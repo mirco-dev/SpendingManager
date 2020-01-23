@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.mz.spendingmanager.R
+import com.mz.spendingmanager.databinding.ExpenseListFragmentBinding
 import com.mz.spendingmanager.model.Expense
-import kotlinx.android.synthetic.main.list_fragment.*
+import kotlinx.android.synthetic.main.expense_list_fragment.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,6 +19,7 @@ import kotlin.collections.ArrayList
 class ExpenseListFragment : Fragment() {
 
     private lateinit var adapter: ExpenseListAdapter
+    private lateinit var binding: ExpenseListFragmentBinding
 
     companion object {
         fun newInstance() = ExpenseListFragment()
@@ -28,18 +31,24 @@ class ExpenseListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //TODO DataBindingUtil
-        return inflater.inflate(R.layout.list_fragment, container, false)
+        //ListFragmentBinding is generated from layout name -> expense_list_fragment
+        binding = DataBindingUtil.inflate<ExpenseListFragmentBinding>(inflater, R.layout.expense_list_fragment, container, false)
+        binding.lifecycleOwner = this
+
+        viewModel = ViewModelProviders.of(this).get(ExpenseListViewModel::class.java)
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ExpenseListViewModel::class.java)
-        adapter = ExpenseListAdapter()
+        adapter = ExpenseListAdapter(listOf(), binding.lifecycleOwner!!)
         rv_list.adapter = adapter
 
         viewModel.listExpense.observe(this, Observer {
-//            tv_num_elements.text = it.count().toString() //use databinding
+            //databinding
+            viewModel.count.value = it.size.toString()
         })
 
         fab_create_new_item.setOnClickListener {
@@ -51,6 +60,7 @@ class ExpenseListFragment : Fragment() {
 
             newList.add(item)
             viewModel.setListExpense(newList)
+            rv_list.adapter = ExpenseListAdapter(newList, binding.lifecycleOwner!!)
         }
     }
 

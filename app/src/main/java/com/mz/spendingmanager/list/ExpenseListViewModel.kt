@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.mz.spendingmanager.model.Expense
 
 class ExpenseListViewModel : ViewModel() {
-    val listExpense : MutableLiveData<List<Expense>> = MutableLiveData()
+    val listExpense : MutableLiveData<List<Expense>> = MutableLiveData(mutableListOf())
+    //fixme get init value
+    val count : MutableLiveData<String> = MutableLiveData("0")
 
     fun setListExpense(result: List<Expense>) {
         listExpense.value = result
@@ -15,9 +17,5 @@ class ExpenseListViewModel : ViewModel() {
         //return current display state or empty string if value is null
         //see "Elvis Operator"
         return listExpense.value ?: emptyList()
-    }
-
-    fun getCount() : Int {
-        return listExpense.value?.size ?: 0
     }
 }
