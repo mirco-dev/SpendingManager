@@ -8,12 +8,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.mz.spendingmanager.R
 import com.mz.spendingmanager.databinding.ExpenseListItemBinding
-import com.mz.spendingmanager.model.Expense
+import com.mz.spendingmanager.model.entity.Expense
 import com.mz.spendingmanager.utils.simpleFormat
 import kotlinx.android.synthetic.main.expense_list_item.view.*
 
 class ExpenseListAdapter(
-    private val expenseItems : List<Expense>,
+    private var expenseItems : List<Expense>,
     private val lifecycleOwner : LifecycleOwner
 ) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
@@ -36,21 +36,27 @@ class ExpenseListAdapter(
         holder.bindItems(expenseItems[position])
     }
 
+    internal fun setExpense(list: List<Expense>) {
+        this.expenseItems = list
+        notifyDataSetChanged()
+    }
+
     //this method is giving the size of the list
     override fun getItemCount(): Int {
         return expenseItems.size
     }
 
-    //the class is hodling the list view
-    class ViewHolder(itemView: ExpenseListItemBinding) : RecyclerView.ViewHolder(itemView.root) {
+    //the class is holding the list view
+    class ViewHolder(bindingItem: ExpenseListItemBinding) : RecyclerView.ViewHolder(bindingItem.root) {
         //with(itemView) necessary to have setOnClickListener
-        fun bindItems(item: Expense) = with(itemView){
+        fun bindItems(item: Expense) {
+            //todo binding
             itemView.tv_id.text = String.format("%d", item.id)
             itemView.tv_creation_date.text = item.creationDate.simpleFormat()
             itemView.tv_text.text = item.title
 
-            setOnClickListener {
-                Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
+            itemView.setOnClickListener {
+                Toast.makeText(it.context, item.title, Toast.LENGTH_SHORT).show()
             }
         }
     }

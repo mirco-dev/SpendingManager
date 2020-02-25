@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.mz.spendingmanager.R
 import com.mz.spendingmanager.databinding.ExpenseListFragmentBinding
-import com.mz.spendingmanager.model.Expense
+import com.mz.spendingmanager.model.entity.Expense
+import com.mz.spendingmanager.utils.simpleFormat
 import kotlinx.android.synthetic.main.expense_list_fragment.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ExpenseListFragment : Fragment() {
@@ -33,9 +33,9 @@ class ExpenseListFragment : Fragment() {
     ): View? {
         //ListFragmentBinding is generated from layout name -> expense_list_fragment
         binding = DataBindingUtil.inflate<ExpenseListFragmentBinding>(inflater, R.layout.expense_list_fragment, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel = ViewModelProviders.of(this).get(ExpenseListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ExpenseListViewModel::class.java)
         binding.viewModel = viewModel
 
         return binding.root
@@ -43,24 +43,19 @@ class ExpenseListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        adapter = ExpenseListAdapter(listOf(), binding.lifecycleOwner!!)
+        adapter = ExpenseListAdapter(listOf(), viewLifecycleOwner)
         rv_list.adapter = adapter
 
-        viewModel.listExpense.observe(this, Observer {
-            //databinding
-            viewModel.count.value = it.size.toString()
+        viewModel.listExpense.observe(viewLifecycleOwner, Observer {
+            // Update the cached copy of the words in the adapter.
+            it?.let { adapter.setExpense(it) }
         })
 
         fab_create_new_item.setOnClickListener {
-            val id : Long = (viewModel.getListExpense().count() + 1).toLong()
-            val item = Expense(id, "Text item $id", Date())
-
-            val newList = ArrayList<Expense>()
-            newList.addAll(viewModel.getListExpense())
-
-            newList.add(item)
-            viewModel.setListExpense(newList)
-            rv_list.adapter = ExpenseListAdapter(newList, binding.lifecycleOwner!!)
+            val item = Expense(
+                "Text item " + Date().simpleFormat()
+            )
+            viewModel.insertExpense(item)
         }
     }
 
