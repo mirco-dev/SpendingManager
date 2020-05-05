@@ -2,6 +2,7 @@ package com.mz.spendingmanager.model
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.mz.spendingmanager.model.database.SpendingRoomDatabase
 import com.mz.spendingmanager.model.entity.Expense
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

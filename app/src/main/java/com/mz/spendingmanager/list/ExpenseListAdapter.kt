@@ -2,9 +2,10 @@ package com.mz.spendingmanager.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.mz.spendingmanager.R
 import com.mz.spendingmanager.databinding.ExpenseListItemBinding
@@ -55,9 +56,8 @@ class ExpenseListAdapter(
             itemView.tv_creation_date.text = item.creationDate.simpleFormat()
             itemView.tv_text.text = item.title
 
-            itemView.setOnClickListener {
-                Toast.makeText(it.context, item.title, Toast.LENGTH_SHORT).show()
-            }
+            val itemBundle = bundleOf("itemSelected" to item.id)
+            itemView.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_listFragment_to_contentFragment, itemBundle))
         }
     }
 

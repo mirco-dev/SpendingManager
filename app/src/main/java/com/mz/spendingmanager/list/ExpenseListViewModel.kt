@@ -3,7 +3,7 @@ package com.mz.spendingmanager.list
 import android.app.Application
 import androidx.lifecycle.*
 import com.mz.spendingmanager.model.SpendingRepository
-import com.mz.spendingmanager.model.SpendingRoomDatabase
+import com.mz.spendingmanager.model.database.SpendingRoomDatabase
 import com.mz.spendingmanager.model.entity.Expense
 import kotlinx.coroutines.launch
 

@@ -13,6 +13,9 @@ interface ExpenseDao {
     @Query("SELECT * from expense_table ORDER BY id")
     fun getAllExpense() : LiveData<List<Expense>>
 
+    @Query("SELECT * from expense_table WHERE id = :idExpense")
+    fun getExpense(idExpense : Long) : LiveData<Expense>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(expense: Expense)
 

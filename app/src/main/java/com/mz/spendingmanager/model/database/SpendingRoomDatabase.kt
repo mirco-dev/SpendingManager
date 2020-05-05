@@ -1,16 +1,17 @@
-package com.mz.spendingmanager.model
+package com.mz.spendingmanager.model.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.mz.spendingmanager.model.ExpenseDatabaseCallback
 import com.mz.spendingmanager.model.dao.ExpenseDao
 import com.mz.spendingmanager.model.entity.Expense
 import kotlinx.coroutines.CoroutineScope
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = arrayOf(Expense::class), version = 1, exportSchema = false)
-public abstract class SpendingRoomDatabase : RoomDatabase() {
+abstract class SpendingRoomDatabase : RoomDatabase() {
 
     abstract fun expenseDao(): ExpenseDao
 
@@ -21,7 +22,8 @@ public abstract class SpendingRoomDatabase : RoomDatabase() {
         private var instance: SpendingRoomDatabase? = null
 
         fun getDatabase(context: Context, scope: CoroutineScope): SpendingRoomDatabase {
-            val tempInstance = instance
+            val tempInstance =
+                instance
             if (tempInstance != null) {
                 return tempInstance
             }
@@ -30,8 +32,13 @@ public abstract class SpendingRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     SpendingRoomDatabase::class.java,
                     "spending_database"
-                ).addCallback(ExpenseDatabaseCallback(scope, instance)).build()
-                SpendingRoomDatabase.instance = instance
+                ).addCallback(
+                    ExpenseDatabaseCallback(
+                        scope,
+                        instance
+                    )
+                ).build()
+                Companion.instance = instance
                 return instance
             }
         }

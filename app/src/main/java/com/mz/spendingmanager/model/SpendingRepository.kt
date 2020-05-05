@@ -15,4 +15,8 @@ class SpendingRepository(private val expenseDao: ExpenseDao) {
     suspend fun insert(expense: Expense) {
         expenseDao.insert(expense)
     }
+
+    fun getExpense(id : Long) : LiveData<Expense>{
+        return expenseDao.getExpense(id)
+    }
 }

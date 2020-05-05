@@ -12,7 +12,10 @@
         tools:layout="@layout/expense_list_fragment" >
         <action
             android:id="@+id/action_listFragment_to_contentFragment"
-            app:destination="@id/contentFragment" />
+            app:destination="@id/contentFragment"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@anim/fragment_fade_exit"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
